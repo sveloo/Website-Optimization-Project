@@ -431,7 +431,8 @@ var resizePizzas = function(size) {
         console.log("Nothing changes");
     };
 
-    var randomPizza = document.querySelectorAll(".randomPizzaContainer")
+    // Used getElementsByClassName as a more efficient selector
+    var randomPizza = document.getElementsByClassName("randomPizzaContainer")
 
     for (var i = 0; i < randomPizza.length; i++) {
       randomPizza[i].style.width = newWidth + "%";
@@ -483,7 +484,8 @@ function updatePositions() {
   frame++;
   window.performance.mark("mark_start_frame");
 
-  var items = document.querySelectorAll('.mover');
+  // Used getElementsByClassName as a more efficient selector
+  var items = document.getElementsByClassName('mover');
   var docScroll = document.body.scrollTop / 1250;
   for (var i = 0; i < items.length; i++) {
     var phase = Math.sin(docScroll + (i % 5));
