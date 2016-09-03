@@ -492,9 +492,7 @@ function updatePositions() {
   var phaseArray = [];
   for (var i = 0; i < 35; i++) {
     phaseArray.push(Math.sin(docScroll + (i % 5)));
-
   }
-  // console.log(phaseArray);
 
   // Used getElementsByClassName as a more efficient selector
   // Trying to get this to work!
