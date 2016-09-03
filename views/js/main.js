@@ -397,13 +397,16 @@ var resizePizzas = function(size) {
   function changeSliderLabel(size) {
     switch(size) {
       case "1":
-        document.querySelector("#pizzaSize").innerHTML = "Small";
+        // used getElementById as a more efficient selector
+        document.getElementById("pizzaSize").innerHTML = "Small";
         return;
       case "2":
-        document.querySelector("#pizzaSize").innerHTML = "Medium";
+        // used getElementById as a more efficient selector
+        document.getElementById("pizzaSize").innerHTML = "Medium";
         return;
       case "3":
-        document.querySelector("#pizzaSize").innerHTML = "Large";
+        // used getElementById as a more efficient selector
+        document.getElementById("pizzaSize").innerHTML = "Large";
         return;
       default:
         console.log("bug in changeSliderLabel");
@@ -412,7 +415,7 @@ var resizePizzas = function(size) {
 
   changeSliderLabel(size);
 
-  // Iterates through pizza elements on the page and changes their widths
+  // Refactored to use switch to select pizza column widths
   function changePizzaSizes(size) {
 
     switch(size) {
@@ -439,7 +442,7 @@ var resizePizzas = function(size) {
     }
   }
 
-  changePizzaSizes(size);
+ changePizzaSizes(size);
 
   // User Timing API is awesome
   window.performance.mark("mark_end_resize");
@@ -484,12 +487,21 @@ function updatePositions() {
   frame++;
   window.performance.mark("mark_start_frame");
 
+  // This stores the five constant phase values in an array to be
+  var docScroll = (document.body.scrollTop / 1250)
+  var phaseArray = [];
+  for (var i = 0; i < 35; i++) {
+    phaseArray.push(Math.sin(docScroll + (i % 5)));
+
+  }
+  // console.log(phaseArray);
+
   // Used getElementsByClassName as a more efficient selector
+  // Trying to get this to work!
   var items = document.getElementsByClassName('mover');
-  var docScroll = document.body.scrollTop / 1250;
-  for (var i = 0; i < items.length; i++) {
-    var phase = Math.sin(docScroll + (i % 5));
-    items[i].style.left = items[i].basicLeft + 100 * phase + 'px';
+  for (var i = 0, j = 0; i < 35, j < 35; i++, j++) {
+    // var phase = Math.sin(docScroll + (i % 5));
+    items[i].style.left = items[i].basicLeft + 100 * phaseArray[j] + 'px';
   }
 
   // User Timing API to the rescue again. Seriously, it's worth learning.
@@ -509,8 +521,8 @@ window.addEventListener('scroll', updatePositions);
 document.addEventListener('DOMContentLoaded', function() {
   var cols = 8;
   var s = 256;
-  // lowered number of pizzas to 25 cos it didn't need 200 pizzas to fill a screen
-  for (var i = 0; i < 25; i++) {
+  // lowered number of pizzas to 30 cos it didn't need 200 pizzas to fill a screen and load time < 12
+  for (var i = 0; i < 35; i++) {
     var elem = document.createElement('img');
     elem.className = 'mover';
     elem.src = "images/pizza.png";
@@ -518,7 +530,7 @@ document.addEventListener('DOMContentLoaded', function() {
     elem.style.width = "73.333px";
     elem.basicLeft = (i % cols) * s;
     elem.style.top = (Math.floor(i / cols) * s) + 'px';
-    document.querySelector("#movingPizzas1").appendChild(elem);
+    document.getElementById("movingPizzas1").appendChild(elem);
   }
   // Added requestAnimationFrame here
   requestAnimationFrame(updatePositions);
