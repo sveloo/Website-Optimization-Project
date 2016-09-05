@@ -491,15 +491,15 @@ function updatePositions() {
   var docScroll = (document.body.scrollTop / 1250)
   var phaseArray = [];
   for (var i = 0; i < 35; i++) {
-    phaseArray.push(Math.sin(docScroll + (i % 5)));
+    phaseArray.push(Math.sin(docScroll + (i)));
   }
 
   // Used getElementsByClassName as a more efficient selector
-  // Trying to get this to work!
+  // Using phaseArray[i % 5] in the for loop to cycle through values stored in Phase array and then repeat itself
   var items = document.getElementsByClassName('mover');
-  for (var i = 0, j = 0; i < 35, j < 35; i++, j++) {
+  for (var i = 0; i < 35; i++) {
     // var phase = Math.sin(docScroll + (i % 5));
-    items[i].style.left = items[i].basicLeft + 100 * phaseArray[j] + 'px';
+    items[i].style.left = items[i].basicLeft + 100 * phaseArray[i % 5] + 'px';
   }
 
   // User Timing API to the rescue again. Seriously, it's worth learning.
