@@ -420,15 +420,15 @@ var resizePizzas = function(size) {
 
     switch(size) {
       case "1":
-        newWidth = 25;
+        newWidth = "25%";
       break;
 
       case "2":
-        newWidth = 33.3;
+        newWidth = "33.3%";
       break;
 
       case "3":
-        newWidth = 50;
+        newWidth = "50%";
       break;
       default:
         console.log("Nothing changes");
@@ -438,7 +438,8 @@ var resizePizzas = function(size) {
     var randomPizza = document.getElementsByClassName("randomPizzaContainer")
 
     for (var i = 0; i < randomPizza.length; i++) {
-      randomPizza[i].style.width = newWidth + "%";
+      // Removed the + "%" for newWidth as the % is now defined in the about switch cases.
+      randomPizza[i].style.width = newWidth;
     }
   }
 
@@ -454,8 +455,10 @@ var resizePizzas = function(size) {
 window.performance.mark("mark_start_generating"); // collect timing data
 
 // This for-loop actually creates and appends all of the pizzas when the page loads
+
+var pizzasDiv = document.getElementById("randomPizzas"); // moved this out of the for loop as it was unnecesary
+
 for (var i = 2; i < 100; i++) {
-  var pizzasDiv = document.getElementById("randomPizzas");
   pizzasDiv.appendChild(pizzaElementGenerator(i));
 }
 
@@ -482,6 +485,9 @@ function logAverageFrame(times) {   // times is the array of User Timing measure
 // The following code for sliding background pizzas was pulled from Ilya's demo found at:
 // https://www.igvita.com/slides/2012/devtools-tips-and-tricks/jank-demo.html
 
+// Global variable to calculate numberofPizzas required to be displayed on screen based on window size.
+var numberofPizzas = window.innerHeight / 256 * 8;
+
 // Moves the sliding background pizzas based on scroll position
 function updatePositions() {
   frame++;
@@ -490,15 +496,15 @@ function updatePositions() {
   // This stores the five constant phase values in an array to be
   var docScroll = (document.body.scrollTop / 1250)
   var phaseArray = [];
-  for (var i = 0; i < 35; i++) {
+  for (var i = 0; i < 5; i++) {
     phaseArray.push(Math.sin(docScroll + (i)));
   }
 
   // Used getElementsByClassName as a more efficient selector
   // Using phaseArray[i % 5] in the for loop to cycle through values stored in Phase array and then repeat itself
   var items = document.getElementsByClassName('mover');
-  for (var i = 0; i < 35; i++) {
-    // var phase = Math.sin(docScroll + (i % 5));
+
+  for (var i = 0; i < numberofPizzas; i++) {
     items[i].style.left = items[i].basicLeft + 100 * phaseArray[i % 5] + 'px';
   }
 
@@ -519,8 +525,8 @@ window.addEventListener('scroll', updatePositions);
 document.addEventListener('DOMContentLoaded', function() {
   var cols = 8;
   var s = 256;
-  // lowered number of pizzas to 30 cos it didn't need 200 pizzas to fill a screen and load time < 12
-  for (var i = 0; i < 35; i++) {
+  // Used numberofPizzas instead of 200 pizzas. This is more efficient because the number of visible pizzas depends on the window size.
+  for (var i = 0; i < numberofPizzas; i++) {
     var elem = document.createElement('img');
     elem.className = 'mover';
     elem.src = "images/pizza.png";
