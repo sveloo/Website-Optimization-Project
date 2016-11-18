@@ -1,4 +1,10 @@
-# FEND Mobile Portfolio optimization project
+# Google Pagespeed Insights 90-95 score website project
+
+![Part of the Udacity Front-End Web Development Nanodegree](https://img.shields.io/badge/Udacity-Front--End%20Web%20Developer%20Nanodegree-02b3e4.svg)
+
+## Overview
+
+Optimised a slow website to perform between 90-95 on Google Pagespeed Insights.
 
 ## Installation
 
